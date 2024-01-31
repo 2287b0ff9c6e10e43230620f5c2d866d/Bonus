@@ -1,0 +1,14 @@
+set.seed(123)
+library("lattice")
+library("ggplot2")
+library("PASWR2")
+p_erfolg <- 3067/22373
+stichproben_groesse <- 60
+stichproben <- 100
+untere_grenze <- obere_grenze <- x <- numeric(stichproben)
+for (i in 1:stichproben){
+  x <- (rbinom(stichproben, size = stichproben_groesse, prob = p_erfolg)/stichproben_groesse)
+  untere_grenze[i] <- x[i] - qnorm(.975)*sqrt((x[i]*(1-x[i]))/stichproben_groesse)
+  obere_grenze[i] <- x[i] + qnorm(.975)*sqrt((x[i]*(1-x[i]))/stichproben_groesse)
+}
+interval.plot(untere_grenze, obere_grenze, parameter = p_erfolg)
